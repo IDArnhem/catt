@@ -17,3 +17,8 @@ Test that it worked by typing:
 You should now see a dump of wifi networks within range.
 
 The python interface to your OS contains another usefull snippets such as listing all the WiFi networks your mac has ever been connected to.
+
+### Processign sketch
+You can use the included processing sketch as your starting point for WiFi signal visualizations.
+
+Thanks to [Willem Kempers](http://willemkempers.nl/) for the sketch.
