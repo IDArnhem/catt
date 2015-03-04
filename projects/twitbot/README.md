@@ -1,5 +1,4 @@
 ## Creating your tweetbot in a jiffy
-
 You can create your twitter account with a disposable email address.
   * This one seems to work: http://www.throwawaymail.com/
   * This one is good too: http://temp-mail.org/
@@ -31,6 +30,14 @@ Some famous robots:
   * [Yes You Are Racist](https://twitter.com/YesYoureRacist)
   * [AutoCharts](https://twitter.com/AutoCharts)
   * [Accidental Haiku](https://twitter.com/accidental575)
+  * [Novice Art Blogger](http://noviceartblogger.tumblr.com/)
 
 #### The code
 To write our tweetbot we will be using the python programming language. This is already installed in your macbook. We need a python library called tweetpy that will be our programming interface to twitter. You can get the library [here](https://github.com/tweepy/tweepy) and the [documentation is here](http://tweepy.readthedocs.org/en/v3.2.0/).
+
+# Running the bot
+
+If you use Sublime 2 on OSX you can press &#8984;+B to run bot.py. To run it from the command line, open a terminal and go to the directory where your bot.py file is using the **cd** command. Directory is another word for folder, but folder is more oftenly used for visual representations.
+
+    $ cd <dir>
+    $ python bot.py

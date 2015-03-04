@@ -22,11 +22,12 @@ def connect():
 def search():
 	global api
 	twts = api.search(q="Hello World!")
-	pprint(twts[0])
+	#pprint(twts[0])
 	print "*"*80
-	print twts[0].text
-	# for t in twts:
-	# 	pprint( t )
+	#print twts[0].text
+	for t in twts:
+	 	pprint( t.text )
+	 	print "---------------------------------"
 
 def mentions():
 	mentions = api.mentions_timeline(count=1)
@@ -42,14 +43,16 @@ def tweetforever():
 	filename.close()
 
 	for line in f:
-	     api.update_status(line)
+	     api.update_status(status=line)
+	     #api.update_with_media(filename="images/mypic.jpg", status=line)
 	     print line
 	     time.sleep(3600) # Sleep for 1 hour
 
 def main():
 	connect()
-	search()
-	mentions()
+	while 1:
+		search()
+	#mentions()
 
 if __name__ == "__main__":
 	main()
