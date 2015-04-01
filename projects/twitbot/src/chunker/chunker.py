@@ -26,9 +26,9 @@ for sent in fsent:
         w.write(sent)
         w.write("\n")
     elif len(sent) > 141:
-        w.write("SPLIT ")
+        #w.write("SPLIT ")
         w.write(sent)
-        w.write("/n")
+        w.write("\n")
     else:
         pass
 
