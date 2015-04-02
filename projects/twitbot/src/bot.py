@@ -30,23 +30,24 @@ def grab_images_from_tweet(tweet):
 			print image_uri
 			#filename = date + '-twitter.com_' + screen_name + '-' + status_id + '-' + str(count)
 			#filepath = directory + '/' + filename
-			filepath = "mybotsimages.jpg"
+			filepath = "mybotsimages-{0}".format(tweet.id)
 			# download image
 			urllib.urlretrieve(image_uri, filepath)
 			# identify mime type and attach extension
-			# if os.path.exists(filepath):
-			# 	mime = magic.from_file(filepath, mime=True)
-			# 	if mime == "image/gif":
-			# 		newfilepath = filepath + ".gif"
-			# 	elif mime == "image/jpeg":
-			# 		newfilepath = filepath + ".jpg"
-			# 	elif mime == "image/png":
-			# 		newfilepath = filepath + ".png"
-			# 	else:
-			# 		err = filepath + ": unrecgonized image type"
-			# 		print_error(err)
-			# 		continue
-			# 	os.rename(filepath, newfilepath)
+			if os.path.exists(filepath):
+				mime = magic.from_file(filepath, mime=True)
+				if mime == "image/gif":
+					newfilepath = filepath + ".gif"
+				elif mime == "image/jpeg":
+					newfilepath = filepath + ".jpg"
+				elif mime == "image/png":
+					newfilepath = filepath + ".png"
+				else:
+					err = filepath + ": unrecognized image type"
+					print_error(err)
+					continue
+				# rename with file extension
+				os.rename(filepath, newfilepath)
 		else:
 			# donwload failed for whatever reason
 			err = filename + ": failed to download " + image_uri
@@ -88,12 +89,31 @@ def tweetforever():
 		 print line
 		 time.sleep(3600) # Sleep for 1 hour
 
+def icelandic_tweets():
+	""" routine for Wido's bot """
+	filename=open('icelandic.txt','r')
+	f=filename.readlines()
+	filename.close()
+
+	#print "number of lines: ", len(f)
+	#print f[:2]
+	#print f[9]
+
+	mn = 0
+	mx = len(f)-1
+	idx = randint(mn, mx)
+	mytweet = f[idx]
+	print mytweet
+
+	mypic = "images/{0}.jpg".format( randint(0,696) ) # 696 is the number of images in the images directory
+	print "posting image: ", mypic
+
+	# tweet with image and geolocation coordinates
+	api.update_with_media(filename=mypic, status=mytweet, lat=63.631050 , long=-19.607225)
+
 def main():
 	connect()
-	#tweetforever()
-	#while 1:
-	#search()
-	#mentions()
+
 	mentions = api.mentions_timeline()
 	if mentions:
 		#print "We have some mentions"
@@ -104,4 +124,9 @@ def main():
 		print "no mentions"
 
 if __name__ == "__main__":
-	main()
+	print("Press Ctrl+C to stop the bot...")
+	try:
+		main()
+	except KeyboardInterrupt, e:
+		pass
+

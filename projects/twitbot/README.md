@@ -31,6 +31,7 @@ Some famous robots:
   * [AutoCharts](https://twitter.com/AutoCharts)
   * [Accidental Haiku](https://twitter.com/accidental575)
   * [Novice Art Blogger](http://noviceartblogger.tumblr.com/)
+  * [Secrets_exe] (https://twitter.com/secrets_exe)
 
 #### The code
 To write our tweetbot we will be using the python programming language. This is already installed in your macbook. We need a python library called tweetpy that will be our programming interface to twitter. You can get the library [here](https://github.com/tweepy/tweepy) and the [documentation is here](http://tweepy.readthedocs.org/en/v3.2.0/).
