@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import tweepy
-#from our keys module (keys.py), import the keys dictionary
+#from our keys module (keys.py), import the keys to interact with Twitter
 from keys import keys
 from pprint import pprint
 import time
@@ -20,6 +20,13 @@ def find_mentions(txt):
 	""" find all the people mentioned in a tweet """
 	mention_re = re.compile(r'@([A-Za-z0-9_]+)')
 	return mention_re.findall(txt)
+
+def get_my_followers():
+	""" get screen names of all followers of this bot """
+	followers = []
+	for follower in tweepy.Cursor(api.followers).items():
+		follower.follow()
+		followers.append(follower.screen_name)
 
 def grab_images_from_tweet(tweet):
 	count = 0
@@ -89,7 +96,19 @@ def tweetforever():
 		 print line
 		 time.sleep(3600) # Sleep for 1 hour
 
-def icelandic_tweets():
+def load_my_answers():
+	global ANSWERS
+	f=open('eightball.txt','r')
+	ANSWERS=f.readlines()
+	f.close()
+
+def get_answer():
+	return random.choice(ANSWERS)
+
+## ###########################################################################
+## main loops of the different bots
+## ###########################################################################
+def loop_icelandic_tweets():
 	""" routine for Wido's bot """
 	filename=open('icelandic.txt','r')
 	f=filename.readlines()
@@ -111,9 +130,8 @@ def icelandic_tweets():
 	# tweet with image and geolocation coordinates
 	api.update_with_media(filename=mypic, status=mytweet, lat=63.631050 , long=-19.607225)
 
-def main():
-	connect()
-
+def loop_image_grabber():
+	""" main routine for Gabrielles bot """
 	mentions = api.mentions_timeline()
 	if mentions:
 		#print "We have some mentions"
@@ -122,6 +140,42 @@ def main():
 				grab_images_from_tweet(m)
 	else:
 		print "no mentions"
+
+def loop_8ball_responder():
+	""" main routine for Channin's bot """
+	load_my_answers()
+
+	while 1:
+		try:
+			mentions = api.mentions_timeline()
+			if mentions:
+				#print "We have been mentioned! "
+				for m in mentions:
+					# print "*"*80
+					# print m.text
+					# print "^"*80
+					# print m.author.name
+					# print "%"*80
+					# print m.author.screen_name
+					# print "@"*80
+					# print "answer: ", get_answer()
+					# print "@"*80
+
+					# compose the tweet responding to the person that tweeted to us
+					answer = "@{0} {1}".format(m.author.screen_name, get_answer())
+					api.update_status(status=(answer)) #, m.id)
+			else:
+				print "we haven't been mentioned  :("
+		except Exception, e:
+			continue
+
+		time.sleep(1)
+
+def main():
+	connect()
+	#loop_icelandic_tweets() # wido
+	#loop_image_grabber() # gabrielle
+	loop_8ball_responder() # channin
 
 if __name__ == "__main__":
 	print("Press Ctrl+C to stop the bot...")
